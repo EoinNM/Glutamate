@@ -4,14 +4,13 @@ import os
 import dicom as pydicom
 import nipype.interfaces.spm.utils as spmu
 from utilities.utils import mkdir_path
-
-
+from variables.subject_list import *
 
 def dicom_convert(population, data_dir, workspace_dir):
 
     print '#############################################################################'
     print ''
-    print '                 RUNNNING PROJECT %s %s' %(data_dir[-7:], workspace_dir[-8:])
+    print '                 RUNNNING PROJECT %s %s' %(data_dir[12:19], workspace_dir[-8:])
     print ''
     print '#############################################################################'
 
@@ -19,8 +18,7 @@ def dicom_convert(population, data_dir, workspace_dir):
     for subject in population:
         count +=1
         print '====================================================================='
-        print '%s- DICOM CONVERSION for for %s' %(count,subject)#
-
+        print '%s- DICOM CONVERSION for %s' %(count,subject)
 
         # define dicom directory for each subject
         dicom_dir  = os.path.join(data_dir, subject, 'DICOM')
@@ -71,9 +69,7 @@ def dicom_convert(population, data_dir, workspace_dir):
 '######################################################################################################################################'
 '######################################################################################################################################'
 
-
 if __name__ == "__main__":
-    dicom_convert(controls_a, afsdir_a, workspace_controls_a)
-    dicom_convert(controls_b, afsdir_b, workspace_controls_b)
-    dicom_convert(patients_a, afsdir_a, workspace_patients_a)
-    dicom_convert(controls_a, afsdir_a, workspace_patients_b)
+    dicom_convert(test_subject, afs_patients_a, workspace_patients_a)
+
+    # dicom_convert(controls_a, afs_controls_a, workspace_controls_a)

@@ -91,12 +91,12 @@ def create_svs_mask_GTS_data(population, afs_dir, workspace_dir):
         mkdir_path(os.path.join(subject_workspace, 'svs_RDA', 'STR', 'met'))
         mkdir_path(os.path.join(subject_workspace, 'svs_RDA', 'STR', 'h2o'))
 
-        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'ACC', 'acc'))
-        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'ACC', 'acc_w'))
-        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'THA', 'tha'))
-        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'THA', 'tha_w'))
-        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'STR', 'str'))
-        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'STR', 'str_w'))
+        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'ACC', 'ACC'))
+        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'ACC', 'ACC_w'))
+        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'THA', 'THA'))
+        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'THA', 'THA_w'))
+        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'STR', 'STR'))
+        mkdir_path(os.path.join(subject_workspace, 'svs_TWIX', 'STR', 'STR_w'))
 
         acc_met_rda_dir = os.path.join(workspace_dir, subject, 'svs_RDA', 'ACC', 'met')
         acc_h2o_rda_dir = os.path.join(workspace_dir, subject, 'svs_RDA', 'ACC', 'h2o')
@@ -105,12 +105,12 @@ def create_svs_mask_GTS_data(population, afs_dir, workspace_dir):
         str_met_rda_dir = os.path.join(workspace_dir, subject, 'svs_RDA', 'STR', 'met')
         str_h2o_rda_dir = os.path.join(workspace_dir, subject, 'svs_RDA', 'STR', 'h2o')
 
-        acc_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'ACC', 'acc')
-        acc_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'ACC', 'acc_w')
-        tha_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'THA', 'tha')
-        tha_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'THA', 'tha_w')
-        str_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'STR', 'str')
-        str_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'STR', 'str_w')
+        acc_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'ACC', 'ACC')
+        acc_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'ACC', 'ACC_w')
+        tha_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'THA', 'THA')
+        tha_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'THA', 'THA_w')
+        str_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'STR', 'STR')
+        str_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'STR', 'STR_w')
 
 
         shutil.copy(rda_acc_met[0], os.path.join(acc_met_rda_dir, '%s%s_ACC_SUPPRESSED.rda' %(subject,workspace_dir[-10:-9]) ))

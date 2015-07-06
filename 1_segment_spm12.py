@@ -28,7 +28,7 @@ def segment_spm(population, workspace_dir):
         anatomical_file = os.path.join(anatomical_dir, 'ANATOMICAL.nii')
 
         # check if the file exists
-        if os.path.isfile(os.path.join(workspace_dir, subject, 'segmentation_spm', 'TISSUE_CLASS_1_GM_BIN.nii')):
+        if os.path.isfile(os.path.join(workspace_dir, subject, 'segmentation_spm', 'TISSUE_CLASS_1_GM_PROB.nii')):
             print 'Brain already segmented......... moving on'
 
         else:
@@ -38,7 +38,6 @@ def segment_spm(population, workspace_dir):
             mkdir_path(os.path.join(subject_dir, 'segmentation_spm'))
             out_spm_dir  = str(os.path.join(subject_dir, 'segmentation_spm'))
 
-
             # run SPM segmentation
             print '..... Starting matlab no splash to run segmentation'
             seg                      = spm.NewSegment()
@@ -46,7 +45,6 @@ def segment_spm(population, workspace_dir):
             seg.inputs.channel_info  = (0.0001, 60, (True, True))
             seg.out_dir              = out_spm_dir
             seg.run()
-
 
             # rename output files
             print '..... Renaming outputs and dumping into SPM segmenation dir'
@@ -77,41 +75,38 @@ def segment_spm(population, workspace_dir):
                     shutil.move(str(os.path.join(anatomical_dir, file)),
                                 str(os.path.join(out_spm_dir, '___seg8.mat')))
 
-            '###########################################'
-            # threshold and biniarize spm tissue masks
-            print '..... Thresholding and binazing tissue probablity maps '
-            gm_mask  = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_1_GM_prob.nii'))
-            wm_mask  = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_2_WM_prob.nii'))
-            csf_mask = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_3_CSF_prob.nii'))
+        '###########################################'
+        # threshold and biniarize spm tissue masks
+        print '..... Thresholding and binazing tissue probablity maps '
+        gm_mask  = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_1_GM_prob.nii'))
+        wm_mask  = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_2_WM_prob.nii'))
+        csf_mask = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_3_CSF_prob.nii'))
 
+        thr_hbin_GM1                          = fsl.Threshold()
+        thr_hbin_GM1.inputs.in_file           = gm_mask
+        thr_hbin_GM1.inputs.thresh            = 0.5
+        thr_hbin_GM1.inputs.args              = '-bin'
+        thr_hbin_GM1.inputs.ignore_exception  = True
+        thr_hbin_GM1.inputs.out_file          = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_1_GM_BIN.nii.gz'))
+        thr_hbin_GM1.run()
 
-            thr_hbin_GM1                          = fsl.Threshold()
-            thr_hbin_GM1.inputs.in_file           = gm_mask
-            thr_hbin_GM1.inputs.thresh            = 0.7
-            thr_hbin_GM1.inputs.args              = '-bin'
-            thr_hbin_GM1.inputs.ignore_exception  = True
-            thr_hbin_GM1.inputs.out_file          = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_1_GM_BIN.nii.gz'))
-            thr_hbin_GM1.run()
+        thr_hbin_WM1                          = fsl.Threshold()
+        thr_hbin_WM1.inputs.in_file           = wm_mask
+        thr_hbin_WM1.inputs.thresh            = 0.5
+        thr_hbin_WM1.inputs.args              = '-bin'
+        thr_hbin_WM1.inputs.ignore_exception  = True
+        thr_hbin_WM1.inputs.out_file          = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_2_WM_BIN.nii.gz'))
+        thr_hbin_WM1.run()
 
-            thr_hbin_WM1                          = fsl.Threshold()
-            thr_hbin_WM1.inputs.in_file           = wm_mask
-            thr_hbin_WM1.inputs.thresh            = 0.7
-            thr_hbin_WM1.inputs.args              = '-bin'
-            thr_hbin_WM1.inputs.ignore_exception  = True
-            thr_hbin_WM1.inputs.out_file          = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_2_WM_BIN.nii.gz'))
-            thr_hbin_WM1.run()
+        thr_hbin_CSF1                         = fsl.Threshold()
+        thr_hbin_CSF1.inputs.in_file          = csf_mask
+        thr_hbin_CSF1.inputs.thresh           = 0.5
+        thr_hbin_CSF1.inputs.args             = '-bin'
+        thr_hbin_CSF1.inputs.ignore_exception = True
+        thr_hbin_CSF1.inputs.out_file         = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_3_CSF_BIN.nii.gz'))
+        thr_hbin_CSF1.run()
 
-            thr_hbin_CSF1                         = fsl.Threshold()
-            thr_hbin_CSF1.inputs.in_file          = csf_mask
-            thr_hbin_CSF1.inputs.thresh           = 0.7
-            thr_hbin_CSF1.inputs.args             = '-bin'
-            thr_hbin_CSF1.inputs.ignore_exception = True
-            thr_hbin_CSF1.inputs.out_file         = str(os.path.join(out_spm_dir, 'TISSUE_CLASS_3_CSF_BIN.nii.gz'))
-            thr_hbin_CSF1.run()
-
-            print '========================================================================================'
-
-
+        print '========================================================================================'
 
 '======================================================================================================================================'
 '======================================================================================================================================'
