@@ -1,0 +1,161 @@
+__author__ = 'kanaan' 'July 6 2015'
+
+import os
+from variables.subject_list import *
+import shutil
+from utilities.utils import mkdir_path
+import subprocess
+
+
+
+def quantitate_rda(population, workspace_dir):
+
+    print '#############################################################################'
+    print ''
+    print '                 RUNNNING PROJECT NMR-093%s %s' %(workspace_dir[-10:-9], workspace_dir[-8:])
+    print ''
+    print '#############################################################################'
+
+    count = 0
+    for subject in population:
+        count +=1
+        print 'Running lcmodel on subject %s' %subject
+
+        def run_lcmodel_on_voxel(voxel_name):
+            #define inputs
+            svs_dir   = os.path.join(workspace_dir, subject, 'svs_RDA')
+            rda_met  = os.path.join(svs_dir, voxel_name, 'met', '%s%s_%s_SUPPRESSED.rda' %(subject, workspace_dir[-10:-9], voxel_name))
+            rda_h2o  = os.path.join(svs_dir, voxel_name, 'h2o', '%s%s_%s_WATER.rda' %(subject, workspace_dir[-10:-9], voxel_name))
+
+
+            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name,'met'))
+            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name,'h2o'))
+
+            lcmodel_dir = os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name)
+
+            '''
+            BIN2RAW
+            '''
+            if os.path.isfile(os.path.join(lcmodel_dir, 'met', 'RAW')) and  os.path.isfile(os.path.join(lcmodel_dir, 'h2o', 'RAW')):
+                print 'Bin2raw already run.........................moving on '
+            else:
+                print ' Generating RAW frequency files with BIN2RAW'
+                met_bin2raw = ['/home/raid3/kanaan/.lcmodel/siemens/bin2raw', '%s'%rda_met, '%s/'%lcmodel_dir, 'met']
+                h2o_bin2raw = ['/home/raid3/kanaan/.lcmodel/siemens/bin2raw', '%s'%rda_h2o, '%s/'%lcmodel_dir, 'h2o']
+
+                subprocess.call(met_bin2raw)
+                subprocess.call(h2o_bin2raw)
+
+            '''
+            Read Scan parameters from RDA file
+            '''
+            reader = open(rda_met, 'r')
+            for line in reader:
+                if 'SeriesDescription' in line:
+                    Series = line[19:30]
+                elif 'TR:' in line:
+                    TR = line[4:8]
+                elif 'TE:' in line:
+                    TE = line[4:6]
+                elif 'VectorSize' in line:
+                    nfil = line[12:16]
+                elif 'NumberOfAverages' in line:
+                    NS = line[18:21]
+                elif 'AcquisitionNumber' in line:#
+                    ACQ = line[19:21]
+                elif 'PatientSex' in line:
+                    Sex = line[12:13]
+                elif 'SeriesNumber' in line:
+                    Seriesnum = line[14:16]
+                elif 'PatientAge' in line:#
+                    Age = line[12:15]
+                elif 'PatientWeight' in line:
+                    Weight = line[15:17]
+                elif 'PixelSpacingRow' in line:
+                    PSR = float(line[17:20])
+                elif 'PixelSpacingCol' in line:
+                    PSC = float(line[17:20])
+                elif 'PixelSpacing3D:' in line:
+                    PS3d = float(line[16:19])
+                elif 'StudyDate' in line:
+                    datex = line[0:19]
+
+            volume = PSR * PSC * PS3d
+
+
+            '''
+            Building the control file
+            '''
+            if os.path.isfile(os.path.join(lcmodel_dir, 'control')):
+                print 'Control file already created................moving on'
+            else:
+                print 'Processing Spectra with LCMODEL'
+                print '...building control file'
+                file = open(os.path.join(lcmodel_dir, 'control'), "w")
+                file.write(" $LCMODL\n")
+                file.write(" title= '%s(%s %s %skg); %s; %s %sx%sx%s; TR/TE/NS=%s/%s/%s' \n" %(subject, Sex, Age, Weight, datex, voxel_name, PSR,PSC,PS3d, TR,TE, NS ))
+                file.write(" srcraw= '%s' \n" %rda_met)
+                file.write(" srch2o= '%s' \n" %rda_h2o)
+                file.write(" savdir= '%s' \n" %lcmodel_dir)
+                file.write(" ppmst= 3.7\n")
+                file.write(" ppmend= 1\n")
+                file.write(" nunfil= %s\n"%nfil)
+                file.write(" ltable= 7\n")
+                file.write(" lps= 8\n")
+                file.write(" lcsv= 11\n")
+                file.write(" lcoraw= 10\n")
+                file.write(" lcoord= 9\n")
+                file.write(" hzpppm= 1.2328e+02\n")
+                file.write(" filtab= '%s/table'\n" %lcmodel_dir)
+                file.write(" filraw= '%s/met/RAW'\n" %lcmodel_dir)
+                file.write(" filps= '%s/ps'\n" %lcmodel_dir)
+                file.write(" filh2o= '%s/h2o/RAW'\n" %lcmodel_dir)
+                file.write(" filcsv= '%s/spreadsheet.csv'\n" %lcmodel_dir)
+                file.write(" filcor= '%s/coraw'\n" %lcmodel_dir)
+                file.write(" filcoo= '%s/coord'\n" %lcmodel_dir)
+                file.write(" filbas= '/home/raid3/kanaan/.lcmodel/basis-sets/press_te30_3t_01a.basis'\n")
+                file.write(" echot= %s.00 \n" %TE)
+                file.write(" dows= T \n")
+                file.write(" doecc= T\n")
+                file.write(" deltat= 8.330e-04\n")
+                file.write(" $END\n")
+                file.close()
+
+            '''
+            Execute quantitation.... running standardA4pdf
+            '''
+
+            if os.path.isfile(os.path.join(lcmodel_dir,  'spreadsheet.csv')):
+                    print 'Spectrum already processed .................moving on'
+            else:
+                print '...running standardA4pdf execution-script '
+                print ''
+                lcmodel_command = ['/bin/sh','/home/raid3/kanaan/.lcmodel/execution-scripts/standardA4pdfv3',
+                                             '%s' %lcmodel_dir,
+                                             '19',
+                                             '%s' %lcmodel_dir,
+                                             '%s' %lcmodel_dir]
+
+                print subprocess.list2cmdline(lcmodel_command)
+                print ''
+                subprocess.call(lcmodel_command)
+
+                reader = open(os.path.join(lcmodel_dir, 'table'), 'r')
+                for line in reader:
+                    if 'FWHM' in line:
+                        fwhm = float(line[9:14])
+                        snrx  = line[29:31]
+
+                        fwhm_hz = fwhm * 123.24
+                        file = open(os.path.join(lcmodel_dir, 'snr.txt'), "w")
+                        file.write('%s, %s, %s' %(fwhm,fwhm_hz, snrx))
+                        file.close()
+
+        run_lcmodel_on_voxel('ACC')
+        run_lcmodel_on_voxel('THA')
+        run_lcmodel_on_voxel('STR')
+
+
+if __name__ == "__main__":
+    quantitate_rda(test_subject, workspace_patients_a)
+
