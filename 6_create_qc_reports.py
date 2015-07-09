@@ -4,7 +4,7 @@ from nilearn.plotting.find_cuts import find_cut_slices
 import os
 from variables.subject_list import *
 import shutil
-from utilities.utils import mkdir_path
+from utilities.utils import mkdir_path, find_cut_coords
 import subprocess
 import numpy as np
 import nibabel as nb
@@ -67,35 +67,34 @@ def create_mrs_qc(population, workspace_dir, analysis_type):
             svs_snr = np.genfromtxt(os.path.join(subject_dir, 'lcmodel_%s'%analysis_type, '%s'%voxel_name, 'snr.txt'), delimiter = ',')
 
             # plot voxel localozation
-            x = find_cut_slices(svs_load, direction='x', n_cuts=1)
-            y = find_cut_slices(svs_load, direction='y', n_cuts=1)
-            z = find_cut_slices(svs_load, direction='z', n_cuts=1)
+
+            coords = find_cut_coords(svs_load)
 
             fig =plt.figure()
             fig.set_size_inches(6.5, 6.5)
             fig.subplots_adjust(wspace=0.005)
             #1
             ax1 = plt.subplot2grid((1,3), (0,0),  colspan = 1, rowspan =1)
-            ax1.imshow(anat_data[-y[0],:,:], matplotlib.cm.bone_r )
-            ax1.imshow(svs_data[-y[0],:,:] , matplotlib.cm.rainbow_r, alpha = 0.7)
+            ax1.imshow(anat_data[coords[0],:,:], matplotlib.cm.bone_r )
+            ax1.imshow(svs_data[coords[0],:,:] , matplotlib.cm.rainbow_r, alpha = 0.7)
             ax1.set_xlim(23, 157)
             ax1.set_ylim(101, 230)
             ax1.axes.get_yaxis().set_visible(False)
             ax1.axes.get_xaxis().set_visible(False)
             #2
             ax2 = plt.subplot2grid((1,3), (0,1),  colspan = 1, rowspan =1)
-            ax2.imshow(np.rot90(anat_data[:,:,-x[0]]), matplotlib.cm.bone_r )
-            ax2.imshow(np.rot90(svs_data[:,:,-x[0]]) , matplotlib.cm.rainbow_r, alpha = 0.7 )
+            ax2.imshow(np.rot90(anat_data[:,:,coords[2]]), matplotlib.cm.bone_r )
+            ax2.imshow(np.rot90(svs_data[:,:,coords[2]]) , matplotlib.cm.rainbow_r, alpha = 0.7 )
             ax2.set_xlim(230, 20)
             ax2.set_ylim(207, 4)
             ax2.axes.get_yaxis().set_visible(False)
             ax2.axes.get_xaxis().set_visible(False)
             #3
             ax3 = plt.subplot2grid((1,3), (0,2),  colspan = 1, rowspan =1)
-            ax3.imshow(anat_data[:,-z[0],:], matplotlib.cm.bone_r, origin='lower')
-            ax3.imshow(svs_data[:,-z[0],:] , matplotlib.cm.rainbow_r, alpha = 0.7, origin='lower')
+            ax3.imshow(anat_data[:,coords[1],:], matplotlib.cm.bone_r, origin='lower')
+            ax3.imshow(svs_data[:,coords[1],:] , matplotlib.cm.rainbow_r, alpha = 0.7, origin='lower')
             ax3.set_xlim(38, 140)
-            ax3.set_ylim(180, 80)
+            ax3.set_ylim(160, 60)
             ax3.axes.get_yaxis().set_visible(False)
             ax3.axes.get_xaxis().set_visible(False)
             fig.tight_layout()
