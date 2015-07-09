@@ -87,5 +87,8 @@ def calculate_voxel_statistics(population, workspace_dir):
 
         print '========================================================================================'
 
-if __name__ == "__main__":
-    calculate_voxel_statistics(test_subject, workspace_patients_a)
+#if __name__ == "__main__":
+    #calculate_voxel_statistics(controls_a, workspace_controls_a) # completed 27 subjects on 09.07.2015
+    #calculate_voxel_statistics(controls_b, workspace_controls_b) # completed 23  subjects on 09.07.2015
+    #calculate_voxel_statistics(patients_a, workspace_patients_a) # completed 35  subjects on 09.07.2015
+    #calculate_voxel_statistics(patients_b, workspace_patients_b)  # completed 15  subjects on 09.07.2015

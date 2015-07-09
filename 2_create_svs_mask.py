@@ -69,20 +69,26 @@ def create_svs_mask_GTS_data(population, afs_dir, workspace_dir):
 
                 if 'meas' in name and 'rda' not in name:
                     if 'ACC' in name or 'acc' in name or 'Acc' in name:
-                        if 'ref' not in name and 'head' not in name and 'body' not in name:
+                        if 'ref' not in name and 'head' not in name and 'body' not in name\
+                                and 'HEAD' not in name:
                             twix_acc_met.append(os.path.join(root, name))
-                        elif 'ref' in name and 'body' not in name:
-                            twix_acc_h2o.append(os.path.join(root, name))
+                        elif 'ref' in name or 'REF' in name:
+                            if 'body' not in name:
+                                twix_acc_h2o.append(os.path.join(root, name))
                     elif 'TH' in name or 'th' in name or 'Tha' in name:
-                        if 'ref' not in name and 'head' not in name and 'body' not in name:
+                        if 'ref' not in name and 'head' not in name and 'body' not in name\
+                                and 'HEAD' not in name:
                             twix_tha_met.append(os.path.join(root, name))
-                        elif 'ref' in name and 'body' not in name:
-                            twix_tha_h2o.append(os.path.join(root, name))
+                        elif 'ref' in name or 'REF' in name:
+                            if 'body' not in name:
+                                twix_tha_h2o.append(os.path.join(root, name))
                     elif 'STR' in name or 'ST' in name or 'st' in name:
-                        if 'ref' not in name and 'head' not in name and 'body' not in name:
+                        if 'ref' not in name and 'head' not in name and 'body' not in name\
+                                and 'HEAD' not in name:
                             twix_str_met.append(os.path.join(root, name))
-                        elif 'ref' in name and 'body' not in name:
-                            twix_str_h2o.append(os.path.join(root, name))
+                        elif 'ref' in name or 'REF' in name:
+                            if 'body' not in name:
+                                twix_str_h2o.append(os.path.join(root, name))
 
         mkdir_path(os.path.join(subject_workspace, 'svs_RDA', 'ACC', 'met'))
         mkdir_path(os.path.join(subject_workspace, 'svs_RDA', 'ACC', 'h2o'))
@@ -105,13 +111,15 @@ def create_svs_mask_GTS_data(population, afs_dir, workspace_dir):
         str_met_rda_dir = os.path.join(workspace_dir, subject, 'svs_RDA', 'STR', 'met')
         str_h2o_rda_dir = os.path.join(workspace_dir, subject, 'svs_RDA', 'STR', 'h2o')
 
+        # print twix_acc_met
+        # print twix_acc_h2o
+
         acc_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'ACC', 'ACC')
         acc_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'ACC', 'ACC_w')
         tha_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'THA', 'THA')
         tha_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'THA', 'THA_w')
         str_met_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'STR', 'STR')
         str_h2o_twx_dir = os.path.join(workspace_dir, subject, 'svs_TWIX', 'STR', 'STR_w')
-
 
         shutil.copy(rda_acc_met[0], os.path.join(acc_met_rda_dir, '%s%s_ACC_SUPPRESSED.rda' %(subject,workspace_dir[-10:-9]) ))
         shutil.copy(rda_tha_met[0], os.path.join(tha_met_rda_dir, '%s%s_THA_SUPPRESSED.rda' %(subject,workspace_dir[-10:-9]) ))
@@ -149,11 +157,11 @@ def create_svs_mask_GTS_data(population, afs_dir, workspace_dir):
         STR_path        = os.path.join(str_met_rda_dir + '/')
         STR_file        = '%s%s_STR_SUPPRESSED.rda' %(subject,workspace_dir[-10:-9])
 
-        print T1Path
-        print T1Image
-
-        print ACC_path
-        print ACC_file
+        # print T1Path
+        # print T1Image
+        #
+        # print ACC_path
+        # print ACC_file
 
         #run matlab code to create registered mask from rda file
 
@@ -214,12 +222,16 @@ def create_svs_mask_GTS_data(population, afs_dir, workspace_dir):
         else:
             print 'STR SVS mask already created..... moving on'
 
-
-
         print '========================================================================================'
 
 
-
-
 if __name__ == "__main__":
-    create_svs_mask_GTS_data(test_subject, afs_patients_a, workspace_patients_a)
+
+    #create_svs_mask_GTS_data(controls_a, afs_controls_a, workspace_controls_a)  #  completed 27 subjects on 08.07.2015. SJVT, WJ3T removed
+    #create_svs_mask_GTS_data(controls_b, afs_controls_b, workspace_controls_b)  #  completed 23 subjects on 08.07.2015. renamed water twix for TR4T body to water
+
+    #create_svs_mask_GTS_data(patients_a, afs_patients_a, workspace_patients_a)   # completed 35 subjects on 08.07.2015.
+    ### MISSING RDA no SCAN     ----> RMJP-STR
+    ### MISSING TWIX no save    ----> SA5U, RRDP, CM5P EXCLUDE from analysis
+
+    create_svs_mask_GTS_data(patients_b, afs_patients_b, workspace_patients_b)   # completed 15 subjects on 09.07.2015. Notes on missing subject below

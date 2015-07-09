@@ -111,7 +111,8 @@ def segment_spm(population, workspace_dir):
 
 if __name__ == "__main__":
     #segment_spm(test_subject, workspace_patients_a)
-    #segment_spm(controls_a, workspace_controls_a) # completed 29 subjects
-    segment_spm(controls_b, workspace_controls_b) #
-    #segment_spm(patients_a, workspace_patients_a) # completed X subjects
-    #segment_spm(patients_b, workspace_patients_b) # completed 16 subjects
+    #segment_spm(controls_a, workspace_controls_a)  # completed 28 subjects on 08.07.2015...  SJVT removed.
+    #segment_spm(controls_b, workspace_controls_b) # completed 23 subjects on 08.07.2015
+    segment_spm(patients_a, workspace_patients_a) # completed XX subjects  on 08.07.2015
+    #segment_spm(patients_b, workspace_patients_b) # completed 16 subjects on 08.07.2015
+
