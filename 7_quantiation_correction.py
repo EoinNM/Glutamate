@@ -116,7 +116,7 @@ def quantiation_correction(population, workspace_dir, analysis_type):
         gln = calc_asbolute(reliable[' Gln'],     proportions['%s_GM'%voxel_name], proportions['%s_WM'%voxel_name], proportions['%s_CSF'%voxel_name] )
         glx = calc_asbolute(reliable[' Glu+Gln'], proportions['%s_GM'%voxel_name], proportions['%s_WM'%voxel_name], proportions['%s_CSF'%voxel_name] )
 
-        absolute = pd.DataFrame({'SUBJECTS_%s'%workspace_dir[-1] :  reliable['Subject'],
+        absolute = pd.DataFrame({'Subjects' :  reliable['Subject'],
                                  'Cre'                           :  cre          ,
                                  'GPC+PCh'                       :  cho          ,
                                  'NAA+NAAG'                      :  naa          ,
@@ -125,7 +125,7 @@ def quantiation_correction(population, workspace_dir, analysis_type):
                                  'Gln'                           :  gln          ,
                                  'Glu+Gln'                       :  glx          ,})
 
-        column_order= ['SUBJECTS_%s'%workspace_dir[-10:-9] ,'Cre', 'GPC+PCh','NAA+NAAG','mI','Glu','Gln','Glu+Gln']
+        column_order= ['Subjects' ,'Cre', 'GPC+PCh','NAA+NAAG','mI','Glu','Gln','Glu+Gln']
         absolute = absolute.reindex(columns=column_order)
 
         absolute.to_csv(os.path.join(results_dir, 'absolute_%s_%s_%s_%s.csv'%(analysis_type, voxel_name, workspace_dir[-8:],workspace_dir[-10:-9])))
@@ -136,8 +136,8 @@ def quantiation_correction(population, workspace_dir, analysis_type):
     create_absolute_df(str_reliable, str_props, 'STR' )
 
 if __name__ == "__main__":
-    quantiation_correction(test_subject, workspace_patients_a, 'rda')
-
-
-
+    quantiation_correction(controls_a, workspace_controls_a, 'rda')
+    quantiation_correction(controls_b, workspace_controls_b, 'rda')
+    quantiation_correction(patients_a, workspace_patients_a, 'rda')
+    quantiation_correction(patients_b, workspace_patients_b, 'rda')
 

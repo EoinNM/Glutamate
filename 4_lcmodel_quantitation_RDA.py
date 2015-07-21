@@ -19,7 +19,10 @@ def quantitate_rda(population, workspace_dir):
     count = 0
     for subject in population:
         count +=1
-        print 'Running lcmodel on subject %s' %subject
+        print '========================================================================================'
+        print '%s- Running lcmodel on subject %s' %(count,subject)
+        print ''
+
 
         def run_lcmodel_on_voxel(voxel_name):
             #define inputs
@@ -37,7 +40,8 @@ def quantitate_rda(population, workspace_dir):
             BIN2RAW
             '''
             if os.path.isfile(os.path.join(lcmodel_dir, 'met', 'RAW')) and  os.path.isfile(os.path.join(lcmodel_dir, 'h2o', 'RAW')):
-                print 'Bin2raw already run.........................moving on '
+                pass
+                #print 'Bin2raw already run.........................moving on '
             else:
                 print ' Generating RAW frequency files with BIN2RAW'
                 met_bin2raw = ['/home/raid3/kanaan/.lcmodel/siemens/bin2raw', '%s'%rda_met, '%s/'%lcmodel_dir, 'met']
@@ -87,7 +91,8 @@ def quantitate_rda(population, workspace_dir):
             Building the control file
             '''
             if os.path.isfile(os.path.join(lcmodel_dir, 'control')):
-                print 'Control file already created................moving on'
+                pass
+                #print 'Control file already created................moving on'
             else:
                 print 'Processing Spectra with LCMODEL'
                 print '...building control file'
@@ -97,8 +102,8 @@ def quantitate_rda(population, workspace_dir):
                 file.write(" srcraw= '%s' \n" %rda_met)
                 file.write(" srch2o= '%s' \n" %rda_h2o)
                 file.write(" savdir= '%s' \n" %lcmodel_dir)
-                file.write(" ppmst= 3.7\n")
-                file.write(" ppmend= 1\n")
+                file.write(" ppmst= 4.0 \n")
+                file.write(" ppmend= 0.3\n")
                 file.write(" nunfil= %s\n"%nfil)
                 file.write(" ltable= 7\n")
                 file.write(" lps= 8\n")
@@ -155,7 +160,8 @@ def quantitate_rda(population, workspace_dir):
         run_lcmodel_on_voxel('THA')
         run_lcmodel_on_voxel('STR')
 
-
 if __name__ == "__main__":
-    quantitate_rda(test_subject, workspace_patients_a)
-
+    #quantitate_rda(controls_a , workspace_controls_a)   # completed 27 subjects on 09.07.2015
+    #quantitate_rda(controls_b , workspace_controls_b)
+    quantitate_rda(patients_a , workspace_patients_a)
+    #quantitate_rda(patients_b , workspace_patients_b)

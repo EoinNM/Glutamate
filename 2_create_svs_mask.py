@@ -234,4 +234,5 @@ if __name__ == "__main__":
     ### MISSING RDA no SCAN     ----> RMJP-STR
     ### MISSING TWIX no save    ----> SA5U, RRDP, CM5P EXCLUDE from analysis
 
-    create_svs_mask_GTS_data(patients_b, afs_patients_b, workspace_patients_b)   # completed 15 subjects on 09.07.2015. Notes on missing subject below
+    #create_svs_mask_GTS_data(patients_b, afs_patients_b, workspace_patients_b)   # completed 15 subjects on 09.07.2015. Notes on missing subject below
+    create_svs_mask_GTS_data(test_subject, afs_patients_a, workspace_patients_a)

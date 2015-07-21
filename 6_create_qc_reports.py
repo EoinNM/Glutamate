@@ -1,6 +1,5 @@
 __author__ = 'kanaan' 'July 6 2015'
 
-from nilearn.plotting.find_cuts import find_cut_slices
 import os
 from variables.subject_list import *
 import shutil
@@ -51,13 +50,13 @@ def create_mrs_qc(population, workspace_dir, analysis_type):
             svs_data  = svs_load.get_data()
 
             # convert zeros to nans for visualization purposes
-            svs_data[svs_data==0]=np.nan
+            #svs_data[svs_data==0]=np.nan
 
             #grab lcmodel plots
             svs_lcmodel = os.path.join(subject_dir, 'lcmodel_%s'%analysis_type, voxel_name, 'ps.pdf')
 
             # create localization pngs
-            make_png = ['convert', '-density', '150', '-trim', '%s'%svs_lcmodel,  '-quality', '300', '-sharpen', '0x1.0', '%s/%s_lcmodel.png'%(tmp_dir, voxel_name)]
+            make_png = ['convert', '-density', '300', '-trim', '%s'%svs_lcmodel,  '-quality', '300', '-sharpen', '0x1.0', '%s/%s_lcmodel.png'%(tmp_dir, voxel_name)]
 
             subprocess.call(make_png)
 
@@ -83,8 +82,8 @@ def create_mrs_qc(population, workspace_dir, analysis_type):
             ax1.axes.get_xaxis().set_visible(False)
             #2
             ax2 = plt.subplot2grid((1,3), (0,1),  colspan = 1, rowspan =1)
-            ax2.imshow(np.rot90(anat_data[:,:,coords[2]]), matplotlib.cm.bone_r )
-            ax2.imshow(np.rot90(svs_data[:,:,coords[2]]) , matplotlib.cm.rainbow_r, alpha = 0.7 )
+            ax2.imshow(np.rot90(anat_data[:,:,-coords[2]]), matplotlib.cm.bone_r )
+            ax2.imshow(np.rot90(svs_data[:,:,-coords[2]]) , matplotlib.cm.rainbow_r, alpha = 0.7 )
             ax2.set_xlim(230, 20)
             ax2.set_ylim(207, 4)
             ax2.axes.get_yaxis().set_visible(False)
@@ -98,6 +97,7 @@ def create_mrs_qc(population, workspace_dir, analysis_type):
             ax3.axes.get_yaxis().set_visible(False)
             ax3.axes.get_xaxis().set_visible(False)
             fig.tight_layout()
+
             fig.savefig('%s/localization_%s.png'%(qc_dir, voxel_name), dpi=200, bbox_inches='tight')
 
             # create qc report
