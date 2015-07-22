@@ -69,12 +69,9 @@ def dicom_convert(population, data_dir, workspace_dir):
 '######################################################################################################################################'
 '######################################################################################################################################'
 
-if __name__ == "__main__":
-    #dicom_convert(test_subject, afs_patients_a, workspace_patients_a)
-    #dicom_convert(controls_a, afs_controls_a, workspace_controls_a)
-    #dicom_convert(controls_b, afs_controls_b, workspace_controls_b)
-    #dicom_convert(patients_a, afs_patients_a, workspace_patients_a)
-    #dicom_convert(patients_b, afs_patients_b, workspace_patients_b)
-    dicom_convert(ZT5T, afs_controls_b, workspace_controls_b)
-
-
+# if __name__ == "__main__":
+#     dicom_convert(test_control_a, afs_controls_a, workspace_controls_a)
+#     dicom_convert(controls_a, afs_controls_a, workspace_controls_a)
+#     dicom_convert(controls_b, afs_controls_b, workspace_controls_b)
+#     dicom_convert(patients_a, afs_patients_a, workspace_patients_a)
+#     dicom_convert(patients_b, afs_patients_b, workspace_patients_b)
