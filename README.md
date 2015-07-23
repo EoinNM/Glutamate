@@ -1,2 +1,3 @@
 # Glutamate
-Not gonna tell you right now.... 
+
+Pipeline for the analysis of MRS PRESS data.
