@@ -29,7 +29,7 @@ def create_svs_mask_GTS_data(population, workspace_dir):
             anatomical_dir     = os.path.join(subject_workspace, 'anatomical_original')
             T1Path     = os.path.join(subject_workspace, 'anatomical_original' + '/')
             T1Image    = 'ANATOMICAL.nii'
-            svs_path   = os.path.join(subject_workspace, 'svs_rda', voxel_name, 'met', + '/')
+            svs_path   = os.path.join(subject_workspace, 'svs_rda', voxel_name, 'met' + '/')
             svs_file   = '%s%s_%s_SUPPRESSED.rda' %(subject ,workspace_dir[-10:-9], voxel_name)
 
             #  output dir
@@ -41,23 +41,27 @@ def create_svs_mask_GTS_data(population, workspace_dir):
                                %(T1Path, T1Image, svs_path, svs_file)]
 
             if not os.path.isfile(os.path.join(mask_dir, '%s%s_%s_RDA_MASK.nii' %(subject,workspace_dir[-10:-9], voxel_name))):
-                print '..... extracting geometry from creating mask for %s'%voxel_name
+                print '..... extracting geometry from RDA and creating mask for %s'%voxel_name
                 subprocess.call(matlab_command)
 
             for file in os.listdir(anatomical_dir):
                         if 'rda' in file and '%s'%voxel_name in file:
                             shutil.move(os.path.join(anatomical_dir, file),
                                         os.path.join(mask_dir,  '%s%s_%s_RDA_MASK.nii' %(subject,workspace_dir[-10:-9], voxel_name)))
-                        elif 'coord' in file and '%s'%voxel_name in file:
+                        elif 'coord' in file:
                             shutil.move(os.path.join(anatomical_dir, file),
                                         os.path.join(mask_dir, '%s%s_%s_RDA_coord.txt' %(subject,workspace_dir[-10:-9], voxel_name)))
             else:
                 print '%s SVS mask already created..... moving on'%voxel_name
-
+            print '========================================================================================'
         create_svs_masks('ACC')
         create_svs_masks('THA')
         create_svs_masks('STR')
 
 '======================================================================================================================================'
 if __name__ == "__main__":
-    create_svs_mask_GTS_data(test_control_a,workspace_controls_a)
+    #create_svs_mask_GTS_data(test_control_a,workspace_controls_a)
+    create_svs_mask_GTS_data(controls_a,workspace_controls_a)
+    create_svs_mask_GTS_data(controls_b,workspace_controls_b)
+    create_svs_mask_GTS_data(patients_a,workspace_patients_a)
+    create_svs_mask_GTS_data(patients_b,workspace_patients_b)

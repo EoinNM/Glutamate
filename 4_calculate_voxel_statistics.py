@@ -22,8 +22,6 @@ def calculate_voxel_statistics(population, workspace_dir):
         print '.'
 
 
-        print '1. grabbing correct files'
-        print ''
         # input files
         spm_dir       = os.path.join(workspace_dir, subject, 'segmentation_spm')
 
@@ -39,7 +37,7 @@ def calculate_voxel_statistics(population, workspace_dir):
         mkdir_path(os.path.join(workspace_dir, subject, 'svs_voxel_stats'))
         stats_dir = os.path.join(workspace_dir, subject, 'svs_voxel_stats')
 
-        print '2. Calculating tissue proportions'
+        print 'Calculating tissue proportions'
         def calc_props(mask_file, seg_gm, seg_wm, seg_cm, voxel_name):
 
             if not os.path.isfile(mask_file):
@@ -87,8 +85,9 @@ def calculate_voxel_statistics(population, workspace_dir):
 
         print '========================================================================================'
 
-#if __name__ == "__main__":
-    #calculate_voxel_statistics(controls_a, workspace_controls_a) # completed 27 subjects on 09.07.2015
-    #calculate_voxel_statistics(controls_b, workspace_controls_b) # completed 23  subjects on 09.07.2015
-    #calculate_voxel_statistics(patients_a, workspace_patients_a) # completed 35  subjects on 09.07.2015
-    #calculate_voxel_statistics(patients_b, workspace_patients_b)  # completed 15  subjects on 09.07.2015
+if __name__ == "__main__":
+     #calculate_voxel_statistics(test_control_a, workspace_controls_a)
+     calculate_voxel_statistics(controls_a, workspace_controls_a)
+     calculate_voxel_statistics(controls_b, workspace_controls_b)
+     calculate_voxel_statistics(patients_a, workspace_patients_a)
+     calculate_voxel_statistics(patients_b, workspace_patients_b)

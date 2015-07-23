@@ -33,11 +33,10 @@ def check_svs_spectra(population, afs_dir, workspace_dir):
             twix_met= []
             twix_h2o= []
 
-
             for root, dirs, files, in os.walk(subject_afs, topdown= False):
                 for name in files:
                     if 'SUPP' in name:
-                        if string1 in name or string1 in name or string3 in name:
+                        if string1 in name or string2 in name or string3 in name:
                             rda_met.append(os.path.join(root, name))
 
                     if 'HEAD' in name and 'REF' in name and 'SUPP' not in name and 'meas' not in name:
@@ -79,19 +78,23 @@ def check_svs_spectra(population, afs_dir, workspace_dir):
             print '.....done voxel %s'%voxel_name
 
         if os.path.isfile(os.path.join(subject_workspace, 'svs_twix', 'ACC', 'ACC', '%s%s_ACC_SUPPRESSED_TWIX.dat' %(subject, workspace_dir[-10:-9]))):
-            print '....data already copied'
+            print '.... ACC data already copied'
         else:
             get_spectra('ACC', 'ACC', 'acc', 'Acc')
 
-        if os.path.isfile(os.path.join(subject_workspace, 'svs_twix', 'ACC', 'THA', '%s%s_ACC_SUPPRESSED_TWIX.dat' %(subject, workspace_dir[-10:-9]))):
-            print '....data already copied'
+        if os.path.isfile(os.path.join(subject_workspace, 'svs_twix', 'THA', 'THA', '%s%s_THA_SUPPRESSED_TWIX.dat' %(subject, workspace_dir[-10:-9]))):
+            print '.... THA data already copied'
         else:
-            get_spectra('THA', 'TH', 'th', 'Tha')
+            get_spectra('THA', 'TH', 'Th', 'th')
 
-        if os.path.isfile(os.path.join(subject_workspace, 'svs_twix', 'ACC', 'STR', '%s%s_ACC_SUPPRESSED_TWIX.dat' %(subject, workspace_dir[-10:-9]))):
-            print '....data already copied'
+        if os.path.isfile(os.path.join(subject_workspace, 'svs_twix', 'STR', 'STR', '%s%s_STR_SUPPRESSED_TWIX.dat' %(subject, workspace_dir[-10:-9]))):
+            print '.... STR data already copied'
         else:
             get_spectra('STR', 'ST', 'ST', 'st')
 
 if __name__ == "__main__":
-    check_svs_spectra(test_control_a, afs_controls_a, workspace_controls_a)
+    #check_svs_spectra(test_control_a, afs_controls_a, workspace_controls_a)
+    check_svs_spectra(controls_a, afs_controls_a, workspace_controls_a)
+    check_svs_spectra(controls_b, afs_controls_b, workspace_controls_b)
+    check_svs_spectra(patients_a, afs_patients_a, workspace_patients_a)
+    check_svs_spectra(patients_b, afs_patients_b, workspace_patients_b)

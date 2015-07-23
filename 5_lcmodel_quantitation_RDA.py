@@ -2,13 +2,12 @@ __author__ = 'kanaan' 'July 6 2015'
 
 import os
 from variables.subject_list import *
-import shutil
 from utilities.utils import mkdir_path
 import subprocess
+import numpy as np
 
 
-
-def quantitate_rda(population, workspace_dir):
+def run_lcmodel(population, workspace_dir):
 
     print '#############################################################################'
     print ''
@@ -25,20 +24,19 @@ def quantitate_rda(population, workspace_dir):
 
 
         def run_lcmodel_on_voxel(voxel_name):
-            #define inputs
-            svs_dir   = os.path.join(workspace_dir, subject, 'svs_RDA')
+
+            #define input and output directories
+            svs_dir   = os.path.join(workspace_dir, subject, 'svs_rda')
             rda_met  = os.path.join(svs_dir, voxel_name, 'met', '%s%s_%s_SUPPRESSED.rda' %(subject, workspace_dir[-10:-9], voxel_name))
             rda_h2o  = os.path.join(svs_dir, voxel_name, 'h2o', '%s%s_%s_WATER.rda' %(subject, workspace_dir[-10:-9], voxel_name))
-
-
             mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name,'met'))
             mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name,'h2o'))
-
             lcmodel_dir = os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name)
 
-            '''
-            BIN2RAW
-            '''
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                                RUN LCMODEL BIN2RAW
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
             if os.path.isfile(os.path.join(lcmodel_dir, 'met', 'RAW')) and  os.path.isfile(os.path.join(lcmodel_dir, 'h2o', 'RAW')):
                 pass
                 #print 'Bin2raw already run.........................moving on '
@@ -50,9 +48,9 @@ def quantitate_rda(population, workspace_dir):
                 subprocess.call(met_bin2raw)
                 subprocess.call(h2o_bin2raw)
 
-            '''
-            Read Scan parameters from RDA file
-            '''
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                              Read Scan parameters from RDA file
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             reader = open(rda_met, 'r')
             for line in reader:
                 if 'SeriesDescription' in line:
@@ -84,12 +82,15 @@ def quantitate_rda(population, workspace_dir):
                 elif 'StudyDate' in line:
                     datex = line[0:19]
 
-            volume = PSR * PSC * PS3d
+            volume = np.round(((PSR * PSC * PS3d) / 1000),2)
 
-
-            '''
-            Building the control file
-            '''
+            header = open(os.path.join(lcmodel_dir, 'rda_header.txt'), 'w')
+            header.write('%s(%s %s %skg); %s; %s %sx%sx%s=%s; TR/TE/NS=%s/%s/%s'
+                          %(subject, Sex, Age, Weight, datex, voxel_name, PSR,PSC,PS3d,volume, TR,TE, NS))
+            header.close()
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                              Building the control file
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             if os.path.isfile(os.path.join(lcmodel_dir, 'control')):
                 pass
                 #print 'Control file already created................moving on'
@@ -98,7 +99,7 @@ def quantitate_rda(population, workspace_dir):
                 print '...building control file'
                 file = open(os.path.join(lcmodel_dir, 'control'), "w")
                 file.write(" $LCMODL\n")
-                file.write(" title= '%s(%s %s %skg); %s; %s %sx%sx%s; TR/TE/NS=%s/%s/%s' \n" %(subject, Sex, Age, Weight, datex, voxel_name, PSR,PSC,PS3d, TR,TE, NS ))
+                file.write(" title= 'RDA - %s(%s %s %skg), %s, %s %sx%sx%s, TR/TE/NS=%s/%s/%s' \n" %(subject, Sex, Age, Weight, datex, voxel_name, PSR,PSC,PS3d, TR,TE, NS ))
                 file.write(" srcraw= '%s' \n" %rda_met)
                 file.write(" srch2o= '%s' \n" %rda_h2o)
                 file.write(" savdir= '%s' \n" %lcmodel_dir)
@@ -126,9 +127,9 @@ def quantitate_rda(population, workspace_dir):
                 file.write(" $END\n")
                 file.close()
 
-            '''
-            Execute quantitation.... running standardA4pdf
-            '''
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                          Execute quantitation.... run standardA4pdf
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             if os.path.isfile(os.path.join(lcmodel_dir,  'spreadsheet.csv')):
                     print 'Spectrum already processed .................moving on'
@@ -136,10 +137,7 @@ def quantitate_rda(population, workspace_dir):
                 print '...running standardA4pdf execution-script '
                 print ''
                 lcmodel_command = ['/bin/sh','/home/raid3/kanaan/.lcmodel/execution-scripts/standardA4pdfv3',
-                                             '%s' %lcmodel_dir,
-                                             '19',
-                                             '%s' %lcmodel_dir,
-                                             '%s' %lcmodel_dir]
+                                   '%s' %lcmodel_dir,'19','%s' %lcmodel_dir, '%s' %lcmodel_dir]
 
                 print subprocess.list2cmdline(lcmodel_command)
                 print ''
@@ -161,7 +159,8 @@ def quantitate_rda(population, workspace_dir):
         run_lcmodel_on_voxel('STR')
 
 if __name__ == "__main__":
-    #quantitate_rda(controls_a , workspace_controls_a)   # completed 27 subjects on 09.07.2015
-    #quantitate_rda(controls_b , workspace_controls_b)
-    quantitate_rda(patients_a , workspace_patients_a)
-    #quantitate_rda(patients_b , workspace_patients_b)
+    #run_lcmodel(test_control_a , workspace_controls_a)
+    run_lcmodel(controls_a , workspace_controls_a)
+    run_lcmodel(controls_b , workspace_controls_b)
+    run_lcmodel(patients_a , workspace_patients_a)
+    run_lcmodel(patients_b , workspace_patients_b)
