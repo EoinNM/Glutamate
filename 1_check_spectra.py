@@ -92,6 +92,7 @@ def check_svs_spectra(population, afs_dir, workspace_dir):
         else:
             get_spectra('STR', 'ST', 'ST', 'st')
 
+
 if __name__ == "__main__":
     #check_svs_spectra(test_control_a, afs_controls_a, workspace_controls_a)
     check_svs_spectra(controls_a, afs_controls_a, workspace_controls_a)
