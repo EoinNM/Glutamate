@@ -22,7 +22,6 @@ def run_lcmodel(population, workspace_dir):
         print '%s- Running lcmodel on subject %s' %(count,subject)
         print ''
 
-
         def run_lcmodel_on_voxel(voxel_name):
 
             #define input and output directories
