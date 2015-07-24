@@ -8,7 +8,7 @@ from variables.subject_list import *
 from utilities.utils import mkdir_path
 
 
-def run_JN_frequency_and_phase_drift_correction(population, workspace_dir):
+def run_lcmodel_on_drift_corrected_data(population, workspace_dir):
 
     print '#############################################################################'
     print ''
@@ -23,38 +23,14 @@ def run_JN_frequency_and_phase_drift_correction(population, workspace_dir):
         print '%s- Running Freuquency and Phase Drift Correction for  subject %s_%s' %(count,subject, workspace_dir[-10:-9])
         print '.'
 
-
-
         '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                        Running Frequency  and Phase Drift Correction
         '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
         # inputs
         twix_dir = os.path.join(workspace_dir, subject, 'svs_twix')
 
-        print 'ACC: Running Spectral Registration at 1.8ppm with 0,0,3.75,0 Phase drift correction'
-        ### ACC spectral registration at at  1.8 PPM
-        acc_dir = os.path.join(twix_dir, 'ACC')
-        os.chdir(acc_dir)
-        preproc_acc = ['matlab',  '-nodesktop', '-nosplash', '-noFigureWindows', '-r "run_pressproc_LimitedRange(\'ACC\') ; quit;"']
-        subprocess.call(preproc_acc)
-
-        print 'THA: Running Spectral Registration at 4.2ppm with 0,0,3.75,0 Phase drift correction'
-        ### THA spectral registration at at  4.2 PPM
-        tha_dir = os.path.join(twix_dir, 'THA')
-        os.chdir(tha_dir)
-        preproc_tha = ['matlab',  '-nodesktop', '-nosplash', '-noFigureWindows', '-r "run_pressproc_WaterRange(\'THA\') ; quit;"']
-        subprocess.call(preproc_tha)
-
-        print 'STR: Running Spectral Registration at 4.2ppm with 0,0,3.75,0 Phase drift correction'
-        # ### STR spectral registration at at  4.2 PPM
-        str_dir = os.path.join(twix_dir, 'STR')
-        os.chdir(str_dir)
-        preproc_str = ['matlab',  '-nodesktop', '-nosplash', '-noFigureWindows', '-r "run_pressproc_WaterRange(\'STR\') ; quit;"']
-        subprocess.call(preproc_str)
-
-
         def run_lcmodel_raw(voxel_name):
+
             print ''
             print 'PROCESSING SPECTRA WITH LCMODEL FOR %s'%voxel_name
             #
@@ -82,6 +58,7 @@ def run_JN_frequency_and_phase_drift_correction(population, workspace_dir):
             hzpppm = 123.242398
             echot  = 30.0
             deltat = 0.000417
+
 
             '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                               Building the control file
@@ -135,7 +112,6 @@ def run_JN_frequency_and_phase_drift_correction(population, workspace_dir):
                     file = open(os.path.join(lcmodel_dir, 'snr.txt'), "w")
                     file.write('%s, %s, %s' %(fwhm,fwhm_hz, snrx))
                     file.close()
-
             print 'done'
             print '###############################################################################'
 
@@ -159,9 +135,9 @@ def run_JN_frequency_and_phase_drift_correction(population, workspace_dir):
         ##########################################################################################
 
 if __name__ == "__main__":
-    #run_JN_frequency_and_phase_drift_correction(test_control_a, workspace_controls_a)
-    # run_JN_frequency_and_phase_drift_correction(controls_a, workspace_controls_a)
-    # run_JN_frequency_and_phase_drift_correction(controls_b, workspace_controls_b)
-    # run_JN_frequency_and_phase_drift_correction(patients_a, workspace_patients_a)
-    run_JN_frequency_and_phase_drift_correction(patients_b, workspace_patients_b)
+    #run_lcmodel_on_drift_corrected_data(test_control_a, workspace_controls_a)
+    # run_lcmodel_on_drift_corrected_data(controls_a, workspace_controls_a)
+    run_lcmodel_on_drift_corrected_data(controls_b, workspace_controls_b)
+    # run_lcmodel_on_drift_corrected_data(patients_a, workspace_patients_a)
+    # run_lcmodel_on_drift_corrected_data(patients_b, workspace_patients_b)
 
