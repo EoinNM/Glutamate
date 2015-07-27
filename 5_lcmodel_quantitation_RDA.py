@@ -141,25 +141,28 @@ def run_lcmodel(population, workspace_dir):
                 print subprocess.list2cmdline(lcmodel_command)
                 print ''
                 subprocess.call(lcmodel_command)
+		 
+	        reader = open(os.path.join(lcmodel_dir, 'table'), 'r')
+		for line in reader:
+		    if 'FWHM' in line:
+		        fwhm = float(line[9:14])
+		        snrx  = line[29:31]
 
-                reader = open(os.path.join(lcmodel_dir, 'table'), 'r')
-                for line in reader:
-                    if 'FWHM' in line:
-                        fwhm = float(line[9:14])
-                        snrx  = line[29:31]
+		        fwhm_hz = fwhm * 123.24
+		        filex = open(os.path.join(lcmodel_dir, 'snr.txt'), "w")
+		        filex.write('%s, %s, %s' %(fwhm,fwhm_hz, snrx))
+		        filex.close()
 
-                        fwhm_hz = fwhm * 123.24
-                        file = open(os.path.join(lcmodel_dir, 'snr.txt'), "w")
-                        file.write('%s, %s, %s' %(fwhm,fwhm_hz, snrx))
-                        file.close()
 
         run_lcmodel_on_voxel('ACC')
         run_lcmodel_on_voxel('THA')
         run_lcmodel_on_voxel('STR')
 
+
+
 if __name__ == "__main__":
     #run_lcmodel(test_control_a , workspace_controls_a)
     run_lcmodel(controls_a , workspace_controls_a)
-    run_lcmodel(controls_b , workspace_controls_b)
-    run_lcmodel(patients_a , workspace_patients_a)
-    run_lcmodel(patients_b , workspace_patients_b)
+    # run_lcmodel(controls_b , workspace_controls_b)
+    # run_lcmodel(patients_a , workspace_patients_a)
+    # run_lcmodel(patients_b , workspace_patients_b)

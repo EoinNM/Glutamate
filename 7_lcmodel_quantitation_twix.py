@@ -20,11 +20,11 @@ def run_lcmodel_on_drift_corrected_data(population, workspace_dir):
     for subject in population:
         count +=1
         print '========================================================================================'
-        print '%s- Running Freuquency and Phase Drift Correction for  subject %s_%s' %(count,subject, workspace_dir[-10:-9])
+        print '%s- Running Frequency and Phase Drift Correction for  subject %s_%s' %(count,subject, workspace_dir[-10:-9])
         print '.'
 
         '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                       Running Frequency  and Phase Drift Correction
+                       Running Frequency and Phase Drift Correction
         '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         # inputs
         twix_dir = os.path.join(workspace_dir, subject, 'svs_twix')
@@ -97,7 +97,7 @@ def run_lcmodel_on_drift_corrected_data(population, workspace_dir):
             file.write(" $END\n")
             file.close()
 
-            lcm_command = ['/bin/sh','/home/raid3/kanaan/.lcmodel/execution-scripts/standardA4pdfv3','%s' %lcmodel_dir,'19','%s' %lcmodel_dir,'%s' %lcmodel_dir]
+            lcm_command = ['/bin/sh','/home/raid3/kanaan/.lcmodel/execution-scripts/standardA4pdfv3','%s' %lcmodel_dir,'30','%s' %lcmodel_dir,'%s' %lcmodel_dir]
             print '... running execution script'
             print subprocess.list2cmdline(lcm_command)
             subprocess.call(lcm_command)
@@ -136,8 +136,8 @@ def run_lcmodel_on_drift_corrected_data(population, workspace_dir):
 
 if __name__ == "__main__":
     #run_lcmodel_on_drift_corrected_data(test_control_a, workspace_controls_a)
-    # run_lcmodel_on_drift_corrected_data(controls_a, workspace_controls_a)
-    run_lcmodel_on_drift_corrected_data(controls_b, workspace_controls_b)
-    # run_lcmodel_on_drift_corrected_data(patients_a, workspace_patients_a)
-    # run_lcmodel_on_drift_corrected_data(patients_b, workspace_patients_b)
+    run_lcmodel_on_drift_corrected_data(controls_a, workspace_controls_a)
+    # run_lcmodel_on_drift_corrected_data(controls_b, workspace_controls_b)
+    # run_lcmodel_on_drift_corrected_data(patients_a_twix, workspace_patients_a)
+    # run_lcmodel_on_drift_corrected_data(patients_b_twix, workspace_patients_b)
 

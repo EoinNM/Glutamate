@@ -119,10 +119,24 @@ def create_mrs_qc(population, workspace_dir, analysis_type):
                 report.save()
 
         # generate qc reports
-        create_voxel_plots('ACC')
-        create_voxel_plots('THA')
-        create_voxel_plots('STR')
+	if not os.path.isfile(os.path.join(subject_dir, 'quality_control',  analysis_type, 'ACC', 'QC_REPORT_ACC.pdf')):
+        	create_voxel_plots('ACC')
+	if not os.path.isfile(os.path.join(subject_dir, 'quality_control',  analysis_type, 'THA', 'QC_REPORT_THA.pdf')):        
+		create_voxel_plots('THA')
+	if not os.path.isfile(os.path.join(subject_dir, 'quality_control',  analysis_type, 'STR', 'QC_REPORT_STR.pdf')):
+	        create_voxel_plots('STR')
 
 if __name__ == "__main__":
-    create_mrs_qc(test_control_a, workspace_controls_a, 'twix')
-    create_mrs_qc(test_control_a, workspace_controls_a, 'rda')
+    #create_mrs_qc(test_control_a, workspace_controls_a, 'twix')
+    create_mrs_qc(controls_a, workspace_controls_a, 'rda')
+    create_mrs_qc(controls_b, workspace_controls_b, 'rda')
+    create_mrs_qc(patients_a, workspace_patients_a, 'rda')
+    create_mrs_qc(patients_b, workspace_patients_b, 'rda')    
+    
+    create_mrs_qc(controls_a, workspace_controls_a, 'twix')
+    create_mrs_qc(controls_b, workspace_controls_b, 'twix')
+    create_mrs_qc(patients_a_twix, workspace_patients_a, 'twix')
+    create_mrs_qc(patients_b_twix, workspace_patients_b, 'twix')
+
+
+

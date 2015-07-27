@@ -62,6 +62,6 @@ def create_svs_mask_GTS_data(population, workspace_dir):
 if __name__ == "__main__":
     #create_svs_mask_GTS_data(test_control_a,workspace_controls_a)
     create_svs_mask_GTS_data(controls_a,workspace_controls_a)
-    create_svs_mask_GTS_data(controls_b,workspace_controls_b)
-    create_svs_mask_GTS_data(patients_a,workspace_patients_a)
-    create_svs_mask_GTS_data(patients_b,workspace_patients_b)
+    # create_svs_mask_GTS_data(controls_b,workspace_controls_b)
+    # create_svs_mask_GTS_data(patients_a,workspace_patients_a)
+    # create_svs_mask_GTS_data(patients_b,workspace_patients_b)
