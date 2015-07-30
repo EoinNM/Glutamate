@@ -57,6 +57,6 @@ def run_JN_frequency_and_phase_drift_correction(population, workspace_dir):
 if __name__ == "__main__":
     #run_JN_frequency_and_phase_drift_correction(test_control_a, workspace_controls_a)
     run_JN_frequency_and_phase_drift_correction(controls_a, workspace_controls_a)
-    # run_JN_frequency_and_phase_drift_correction(controls_b, workspace_controls_b)
-    # run_JN_frequency_and_phase_drift_correction(patients_a_twix, workspace_patients_a)
-    # run_JN_frequency_and_phase_drift_correction(patients_b_twix, workspace_patients_b)
+    run_JN_frequency_and_phase_drift_correction(controls_b, workspace_controls_b)
+    run_JN_frequency_and_phase_drift_correction(patients_a_twix, workspace_patients_a)
+    run_JN_frequency_and_phase_drift_correction(patients_b_twix, workspace_patients_b)

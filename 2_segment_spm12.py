@@ -111,6 +111,6 @@ def segment_spm(population, workspace_dir):
 if __name__ == "__main__":
     #segment_spm(test_control_a, workspace_controls_a)
     segment_spm(controls_a, workspace_controls_a)
-    # segment_spm(controls_b, workspace_controls_b)
-    # segment_spm(patients_a, workspace_patients_a)
-    # segment_spm(patients_b, workspace_patients_b)
+    segment_spm(controls_b, workspace_controls_b)
+    segment_spm(patients_a, workspace_patients_a)
+    segment_spm(patients_b, workspace_patients_b)

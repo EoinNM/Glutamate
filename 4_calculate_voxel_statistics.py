@@ -88,6 +88,6 @@ def calculate_voxel_statistics(population, workspace_dir):
 if __name__ == "__main__":
      #calculate_voxel_statistics(test_control_a, workspace_controls_a)
      calculate_voxel_statistics(controls_a, workspace_controls_a)
-     # calculate_voxel_statistics(controls_b, workspace_controls_b)
-     # calculate_voxel_statistics(patients_a, workspace_patients_a)
-     # calculate_voxel_statistics(patients_b, workspace_patients_b)
+     calculate_voxel_statistics(controls_b, workspace_controls_b)
+     calculate_voxel_statistics(patients_a, workspace_patients_a)
+     calculate_voxel_statistics(patients_b, workspace_patients_b)
