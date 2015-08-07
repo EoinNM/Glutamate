@@ -22,15 +22,16 @@ def run_lcmodel(population, workspace_dir):
         print '%s- Running lcmodel on subject %s' %(count,subject)
         print ''
 
-        def run_lcmodel_on_voxel(voxel_name):
+        def run_lcmodel_on_voxel(voxel_name, ppmst):
 
             #define input and output directories
             svs_dir   = os.path.join(workspace_dir, subject, 'svs_rda')
             rda_met  = os.path.join(svs_dir, voxel_name, 'met', '%s%s_%s_SUPPRESSED.rda' %(subject, workspace_dir[-10:-9], voxel_name))
             rda_h2o  = os.path.join(svs_dir, voxel_name, 'h2o', '%s%s_%s_WATER.rda' %(subject, workspace_dir[-10:-9], voxel_name))
-            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name,'met'))
-            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name,'h2o'))
-            lcmodel_dir = os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name)
+            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name, 'ppm_%s'%ppmst, 'met'))
+            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name, 'ppm_%s'%ppmst, 'h2o'))
+            lcmodel_dir = os.path.join(workspace_dir, subject, 'lcmodel_rda', voxel_name, 'ppm_%s'%ppmst)
+
 
             '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                                 RUN LCMODEL BIN2RAW
@@ -96,13 +97,14 @@ def run_lcmodel(population, workspace_dir):
             else:
                 print 'Processing Spectra with LCMODEL'
                 print '...building control file'
+
                 file = open(os.path.join(lcmodel_dir, 'control'), "w")
                 file.write(" $LCMODL\n")
                 file.write(" title= 'RDA - %s(%s %s %skg), %s, %s %sx%sx%s, TR/TE/NS=%s/%s/%s' \n" %(subject, Sex, Age, Weight, datex, voxel_name, PSR,PSC,PS3d, TR,TE, NS ))
                 file.write(" srcraw= '%s' \n" %rda_met)
                 file.write(" srch2o= '%s' \n" %rda_h2o)
                 file.write(" savdir= '%s' \n" %lcmodel_dir)
-                file.write(" ppmst= 4.0 \n")
+                file.write(" ppmst= %s \n"%ppmst)
                 file.write(" ppmend= 0.3\n")
                 file.write(" nunfil= %s\n"%nfil)
                 file.write(" ltable= 7\n")
@@ -141,28 +143,38 @@ def run_lcmodel(population, workspace_dir):
                 print subprocess.list2cmdline(lcmodel_command)
                 print ''
                 subprocess.call(lcmodel_command)
-		 
-	        reader = open(os.path.join(lcmodel_dir, 'table'), 'r')
-		for line in reader:
-		    if 'FWHM' in line:
-		        fwhm = float(line[9:14])
-		        snrx  = line[29:31]
 
-		        fwhm_hz = fwhm * 123.24
-		        filex = open(os.path.join(lcmodel_dir, 'snr.txt'), "w")
-		        filex.write('%s, %s, %s' %(fwhm,fwhm_hz, snrx))
-		        filex.close()
+            reader = open(os.path.join(lcmodel_dir, 'table'), 'r')
+            for line in reader:
+                if 'FWHM' in line:
+                    fwhm = float(line[9:14])
+                    snrx  = line[29:31]
+                    fwhm_hz = fwhm * 123.24
+                if 'Data shift' in line:
+                    shift = line[15:21]
+                if 'Ph:' in line:
+                    ph0 = line[6:10]
+                    ph1 = line[19:24]
+
+                    filex = open(os.path.join(lcmodel_dir, 'snr.txt'), "w")
+                    filex.write('%s, %s, %s, %s, %s, %s' %(fwhm,fwhm_hz, snrx, shift, ph0, ph1))
+                    filex.close()
 
 
-        run_lcmodel_on_voxel('ACC')
-        run_lcmodel_on_voxel('THA')
-        run_lcmodel_on_voxel('STR')
+        run_lcmodel_on_voxel(voxel_name = 'ACC', ppmst = 4.00)
+        run_lcmodel_on_voxel(voxel_name = 'ACC', ppmst = 3.67)
+
+        run_lcmodel_on_voxel(voxel_name = 'THA', ppmst = 4.00)
+        run_lcmodel_on_voxel(voxel_name = 'THA', ppmst = 3.67)
+
+        run_lcmodel_on_voxel(voxel_name = 'STR', ppmst = 4.00)
+        run_lcmodel_on_voxel(voxel_name = 'STR', ppmst = 3.67)
 
 
 
 if __name__ == "__main__":
-    #run_lcmodel(test_control_a , workspace_controls_a)
-    run_lcmodel(controls_a , workspace_controls_a)
+    # run_lcmodel(test_control_a , workspace_controls_a)
+    # run_lcmodel(controls_a , workspace_controls_a)
     run_lcmodel(controls_b , workspace_controls_b)
     run_lcmodel(patients_a , workspace_patients_a)
     run_lcmodel(patients_b , workspace_patients_b)

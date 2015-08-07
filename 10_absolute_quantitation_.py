@@ -1,12 +1,11 @@
 __author__ = 'kanaan'
 
 import os
-import numpy as np
 from variables.subject_list import *
 import pandas as pd
 
 
-def absolute_quantitation(workspace_dir):
+def absolute_quantitation(workspace_dir, results_dir):
 
     print '#############################################################################'
     print ''
@@ -46,9 +45,9 @@ def absolute_quantitation(workspace_dir):
 
         return Cmet2
 
-    def get_dataframe(voxel_name, analysis_type):
-        results_dir = os.path.join(workspace_dir, 'group_tables')
-        csv = os.path.join(results_dir, 'lcmodel_%s_%s_%s_%s.csv'%(analysis_type, voxel_name, workspace_dir[-8:],workspace_dir[-10:-9]))
+    def make_absolute_dataframe(voxel_name, analysis_type, ppmst):
+
+        csv = os.path.join(results_dir, voxel_name, 'lcmodel_%s_%s_ppmst_%s_%s_%s.csv'%(voxel_name, analysis_type, ppmst, workspace_dir[-8:],workspace_dir[-10:-9]))
         df = pd.read_csv(csv, index_col = 0 )
 
         df.Cre       = calculate_asbolute_concentration(df.Cre, df.GM, df.WM, df.CSF)
@@ -56,24 +55,37 @@ def absolute_quantitation(workspace_dir):
         df.tNAA      = calculate_asbolute_concentration(df.tNAA, df.GM, df.WM, df.CSF)
         df.mIno      = calculate_asbolute_concentration(df.mIno, df.GM, df.WM, df.CSF)
         df.Glu       = calculate_asbolute_concentration(df.Glu, df.GM, df.WM, df.CSF)
+        df.Glu_Cre   = calculate_asbolute_concentration(df.Glu_Cre, df.GM, df.WM, df.CSF)
         df.Gln       = calculate_asbolute_concentration(df.Gln, df.GM, df.WM, df.CSF)
-        df.Glx       = calculate_asbolute_concentration(df.Gln, df.GM, df.WM, df.CSF)
+        df.Gln_Cre   = calculate_asbolute_concentration(df.Gln_Cre, df.GM, df.WM, df.CSF)
+        df.Glx       = calculate_asbolute_concentration(df.Glx, df.GM, df.WM, df.CSF)
+        df.Glx_Cre   = calculate_asbolute_concentration(df.Glx_Cre, df.GM, df.WM, df.CSF)
         df.GABA      = calculate_asbolute_concentration(df.GABA, df.GM, df.WM, df.CSF)
         df.MM9       = calculate_asbolute_concentration(df.MM9, df.GM, df.WM, df.CSF)
         df.MM20      = calculate_asbolute_concentration(df.MM20, df.GM, df.WM, df.CSF)
         df.MM9Lip9   = calculate_asbolute_concentration(df.MM9Lip9, df.GM, df.WM, df.CSF)
         df.MM20Lip20 = calculate_asbolute_concentration(df.MM9Lip9, df.GM, df.WM, df.CSF)
 
-        df.to_csv(os.path.join(results_dir,'absolute_%s_%s_%s_%s.csv'%(analysis_type, voxel_name, workspace_dir[-8:],workspace_dir[-10:-9])))
+        df.to_csv(os.path.join(results_dir, voxel_name, 'absolute_%s_%s_ppmst_%s_%s_%s.csv'%(voxel_name, analysis_type, ppmst, workspace_dir[-8:],workspace_dir[-10:-9])))
         print 'check results here: %s'%results_dir
 
-    get_dataframe('ACC', 'rda')
-    get_dataframe('ACC', 'twix')
-    get_dataframe('THA', 'rda')
-    get_dataframe('THA', 'twix')
-    get_dataframe('STR', 'rda')
-    get_dataframe('STR', 'twix')
+    make_absolute_dataframe('ACC', 'rda', 4.00)
+    make_absolute_dataframe('ACC', 'rda', 3.67)
+    make_absolute_dataframe('ACC', 'twix', 4.0)
+    make_absolute_dataframe('ACC', 'twix', 3.67)
+
+    make_absolute_dataframe('THA', 'rda', 4.00)
+    make_absolute_dataframe('THA', 'rda', 3.67)
+    make_absolute_dataframe('THA', 'twix', 4.0)
+    make_absolute_dataframe('THA', 'twix', 3.67)
+
+    make_absolute_dataframe('STR', 'rda', 4.00)
+    make_absolute_dataframe('STR', 'rda', 3.67)
+    make_absolute_dataframe('STR', 'twix', 4.0)
+    make_absolute_dataframe('STR', 'twix', 3.67)
 
 if __name__ == "__main__":
-    absolute_quantitation(workspace_controls_a)
-    absolute_quantitation(workspace_controls_b)
+    absolute_quantitation(workspace_controls_a, results_dir_a)
+    absolute_quantitation(workspace_patients_a, results_dir_a)
+    absolute_quantitation(workspace_controls_b, results_dir_b)
+    absolute_quantitation(workspace_patients_b, results_dir_b)
