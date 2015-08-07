@@ -21,6 +21,7 @@ def quantiation_correction(population, workspace_dir, analysis_type):
     results_dir = os.path.join(workspace_dir[:-8], 'group_statistics')
 
     def save_reliable_concentrations(population, workspace_dir, voxel_name, analysis_type):
+
         csv_list = []
         for subject in population:
             # get metabolite data for each subject and append to a list
