@@ -170,11 +170,9 @@ def run_lcmodel(population, workspace_dir):
         run_lcmodel_on_voxel(voxel_name = 'STR', ppmst = 4.00)
         run_lcmodel_on_voxel(voxel_name = 'STR', ppmst = 3.67)
 
-
-
 if __name__ == "__main__":
     # run_lcmodel(test_control_a , workspace_controls_a)
     # run_lcmodel(controls_a , workspace_controls_a)
-    run_lcmodel(controls_b , workspace_controls_b)
+    # run_lcmodel(controls_b , workspace_controls_b)
     run_lcmodel(patients_a , workspace_patients_a)
-    run_lcmodel(patients_b , workspace_patients_b)
+    # run_lcmodel(patients_b , workspace_patients_b)

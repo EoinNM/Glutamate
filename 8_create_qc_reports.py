@@ -173,14 +173,11 @@ if __name__ == "__main__":
     # create_mrs_qc(controls_a, workspace_controls_a, 'rda')
     # create_mrs_qc(controls_a, workspace_controls_a, 'twix')
 
-    create_mrs_qc(controls_b, workspace_controls_b, 'twix')
-    create_mrs_qc(controls_b, workspace_controls_b, 'rda')
-
-    # create_mrs_qc(patients_a, workspace_patients_a, 'rda')
-    # create_mrs_qc(patients_a_twix, workspace_patients_a, 'twix')
+    # create_mrs_qc(controls_b, workspace_controls_b, 'twix')
+    # create_mrs_qc(controls_b, workspace_controls_b, 'rda')
+    #
+    create_mrs_qc(patients_a, workspace_patients_a, 'rda')
+    create_mrs_qc(patients_a_twix, workspace_patients_a, 'twix')
 
     # create_mrs_qc(patients_b, workspace_patients_b, 'rda')
     # create_mrs_qc(patients_b_twix, workspace_patients_b, 'twix')
-    #
-    #
-    #
