@@ -107,13 +107,14 @@ def segment_spm(population, workspace_dir):
             thr_hbin_CSF1.run()
 
         '###########################################'
-        print '..... Segmentatiing Subcortex and creating optimized tissue masks '
+
 
         out_seg_dir = os.path.join(subject_dir, 'segmentation_spm')
         if os.path.isfile(os.path.join(out_seg_dir, 'TISSUE_CLASS_1_GM_OPTIMIZED.nii.gz')):
             print 'Optimized Tissue masks already created......... moving on'
 
         else:
+            print '..... Segmentatiing Subcortex and creating optimized tissue masks'
             # create brain mask from GM, WM, CSF
             gm_bin = os.path.join(out_seg_dir, 'TISSUE_CLASS_1_GM_BIN.nii.gz')
             wm_bin = os.path.join(out_seg_dir, 'TISSUE_CLASS_2_WM_BIN.nii.gz')
@@ -126,8 +127,6 @@ def segment_spm(population, workspace_dir):
             anatomical_deskull_rpi = os.path.join(anatomical_dir, 'ANATOMICAL_DESKULL_RPI.nii.gz')
             os.system('fslmaths %s -mul %s %s' %(anatomical_file, brain_mask, anatomical_deskull))
             os.system('fslswapdim %s RL PA IS %s'%(anatomical_deskull, anatomical_deskull_rpi))
-
-
 
             # run FLIRT and FIRST
             mkdir_path(os.path.join(out_seg_dir, 'FIRST_subcortical'))
@@ -165,8 +164,9 @@ def segment_spm(population, workspace_dir):
 '======================================================================================================================================'
 
 if __name__ == "__main__":
-    segment_spm(['GHAT'], workspace_controls_a)
+    # segment_spm(['GHAT'], workspace_controls_a)
     # segment_spm(controls_a, workspace_controls_a)
     # segment_spm(controls_b, workspace_controls_b)
     # segment_spm(patients_a, workspace_patients_a)
     # segment_spm(patients_b, workspace_patients_b)
+    segment_spm(['NL2P'], workspace_patients_b)

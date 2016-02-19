@@ -47,7 +47,8 @@ def absolute_quantitation(workspace_dir, results_dir):
 
     def make_absolute_dataframe(voxel_name, analysis_type, ppmst):
 
-        csv = os.path.join(results_dir, voxel_name, 'lcmodel_%s_%s_ppmst_%s_%s_%s.csv'%(voxel_name, analysis_type, ppmst, workspace_dir[-8:],workspace_dir[-10:-9]))
+        #csv = os.path.join(results_dir, voxel_name, 'lcmodel_%s_%s_ppmst_%s_%s_%s.csv'%(voxel_name, analysis_type, ppmst, workspace_dir[-8:],workspace_dir[-10:-9]))
+        csv = os.path.join(results_dir, voxel_name, 'v2_lcmodel_%s_%s_ppmst_%s_%s_%s.csv'%(voxel_name, analysis_type, ppmst, workspace_dir[-8:],workspace_dir[-10:-9]))
         df = pd.read_csv(csv, index_col = 0 )
 
         df.Cre       = calculate_asbolute_concentration(df.Cre, df.GM, df.WM, df.CSF)
@@ -61,12 +62,18 @@ def absolute_quantitation(workspace_dir, results_dir):
         df.Glx       = calculate_asbolute_concentration(df.Glx, df.GM, df.WM, df.CSF)
         df.Glx_Cre   = calculate_asbolute_concentration(df.Glx_Cre, df.GM, df.WM, df.CSF)
         df.GABA      = calculate_asbolute_concentration(df.GABA, df.GM, df.WM, df.CSF)
-        df.MM9       = calculate_asbolute_concentration(df.MM9, df.GM, df.WM, df.CSF)
-        df.MM20      = calculate_asbolute_concentration(df.MM20, df.GM, df.WM, df.CSF)
-        df.MM9Lip9   = calculate_asbolute_concentration(df.MM9Lip9, df.GM, df.WM, df.CSF)
-        df.MM20Lip20 = calculate_asbolute_concentration(df.MM9Lip9, df.GM, df.WM, df.CSF)
+        df.Asp       = calculate_asbolute_concentration(df.Asp, df.GM, df.WM, df.CSF)
+        df.Tau       = calculate_asbolute_concentration(df.Tau, df.GM, df.WM, df.CSF)
+        df.Lac       = calculate_asbolute_concentration(df.Lac, df.GM, df.WM, df.CSF)
+        df.NAA       = calculate_asbolute_concentration(df.NAA, df.GM, df.WM, df.CSF)
+        df.NAAG      = calculate_asbolute_concentration(df.NAAG, df.GM, df.WM, df.CSF)
+        df.Ala       = calculate_asbolute_concentration(df.Ala, df.GM, df.WM, df.CSF)
+        df.Glc       = calculate_asbolute_concentration(df.Glc, df.GM, df.WM, df.CSF)
+        df.Scy       = calculate_asbolute_concentration(df.Scy, df.GM, df.WM, df.CSF)
+        df.Gua       = calculate_asbolute_concentration(df.Gua, df.GM, df.WM, df.CSF)
 
-        df.to_csv(os.path.join(results_dir, voxel_name, 'absolute_%s_%s_ppmst_%s_%s_%s.csv'%(voxel_name, analysis_type, ppmst, workspace_dir[-8:],workspace_dir[-10:-9])))
+        #df.to_csv(os.path.join(results_dir, voxel_name, 'absolute_%s_%s_ppmst_%s_%s_%s.csv'%(voxel_name, analysis_type, ppmst, workspace_dir[-8:],workspace_dir[-10:-9])))
+        df.to_csv(os.path.join(results_dir, voxel_name, 'v2_absolute_%s_%s_ppmst_%s_%s_%s.csv'%(voxel_name, analysis_type, ppmst, workspace_dir[-8:],workspace_dir[-10:-9])))
         print 'check results here: %s'%results_dir
 
     make_absolute_dataframe('ACC', 'rda', 4.00)

@@ -29,9 +29,9 @@ def calculate_voxel_statistics(population, workspace_dir):
         tha_mask      = os.path.join(workspace_dir, subject, 'svs_voxel_mask', '%s%s_THA_RDA_MASK.nii'%(subject,workspace_dir[-10:-9]))
         str_mask      = os.path.join(workspace_dir, subject, 'svs_voxel_mask', '%s%s_STR_RDA_MASK.nii'%(subject,workspace_dir[-10:-9]))
 
-        spm_gm        = os.path.join(spm_dir, 'TISSUE_CLASS_1_GM_BIN.nii.gz')
-        spm_wm        = os.path.join(spm_dir, 'TISSUE_CLASS_2_WM_BIN.nii.gz')
-        spm_cm        = os.path.join(spm_dir, 'TISSUE_CLASS_3_CSF_BIN.nii.gz')
+        spm_gm        = os.path.join(spm_dir, 'TISSUE_CLASS_1_GM_OPTIMIZED.nii.gz')
+        spm_wm        = os.path.join(spm_dir, 'TISSUE_CLASS_2_WM_OPTIMIZED.nii.gz')
+        spm_cm        = os.path.join(spm_dir, 'TISSUE_CLASS_3_CSF_OPTIMIZED.nii.gz')
 
         # output folders
         mkdir_path(os.path.join(workspace_dir, subject, 'svs_voxel_stats'))
@@ -44,7 +44,7 @@ def calculate_voxel_statistics(population, workspace_dir):
                 print 'IOError: [Errno 2] SVS %s mask Does not exist, create masks and come back' %voxel_name
 
             else:
-                if os.path.isfile(os.path.join(stats_dir, '%s_voxel_statistics_spm.txt'%voxel_name)):
+                if os.path.isfile(os.path.join(stats_dir, '%s_voxel_statistics_spm_opt.txt'%voxel_name)):
                     print 'Voxel statistics already calculated ... moving on'
 
                 else:
@@ -74,7 +74,7 @@ def calculate_voxel_statistics(population, workspace_dir):
                     print '%s.....' %voxel_name
                     print '...%s SPM NewSegment Tissue Proportions = %s%% GM, %s%% WM, %s%% CSF = %s'  %(voxel_name, percent_spm_gm, percent_spm_wm, percent_spm_cm, sum_spm)
 
-                    spm_txt  = os.path.join(stats_dir, '%s_voxel_statistics_spm.txt'%voxel_name)
+                    spm_txt  = os.path.join(stats_dir, '%s_voxel_statistics_spm_opt.txt'%voxel_name)
                     write_spm = open(spm_txt, 'w')
                     write_spm.write('%s, %s, %s, %s'%(percent_spm_gm, percent_spm_wm, percent_spm_cm, sum_spm))
                     write_spm.close()
@@ -86,8 +86,9 @@ def calculate_voxel_statistics(population, workspace_dir):
         print '========================================================================================'
 
 if __name__ == "__main__":
-     #calculate_voxel_statistics(test_control_a, workspace_controls_a)
-     calculate_voxel_statistics(controls_a, workspace_controls_a)
-     calculate_voxel_statistics(controls_b, workspace_controls_b)
-     calculate_voxel_statistics(patients_a, workspace_patients_a)
-     calculate_voxel_statistics(patients_b, workspace_patients_b)
+     # calculate_voxel_statistics(['KDET'], workspace_controls_a)
+     # calculate_voxel_statistics(controls_a, workspace_controls_a)
+     # calculate_voxel_statistics(controls_b, workspace_controls_b)
+     # calculate_voxel_statistics(patients_a, workspace_patients_a)
+     # calculate_voxel_statistics(patients_b, workspace_patients_b)
+     calculate_voxel_statistics(['NL2P'], workspace_patients_b)

@@ -96,8 +96,8 @@ def check_svs_spectra(population, afs_dir, workspace_dir):
 
 
 if __name__ == "__main__":
-    #check_svs_spectra(test_control_a, afs_controls_a, workspace_controls_a)
-    #check_svs_spectra(controls_a, afs_controls_a, workspace_controls_a)
-    #check_svs_spectra(controls_b, afs_controls_b, workspace_controls_b)
-    #check_svs_spectra(patients_a, afs_patients_a, workspace_patients_a)
-    check_svs_spectra(patients_b, afs_patients_b, workspace_patients_b)
+    # check_svs_spectra(['SDCT'], afs_controls_a, workspace_controls_a)
+    # check_svs_spectra(controls_a, afs_controls_a, workspace_controls_a)
+    # check_svs_spectra(controls_b, afs_controls_b, workspace_controls_b)
+    # check_svs_spectra(patients_a, afs_patients_a, workspace_patients_a)
+    check_svs_spectra(['NL2P'], afs_patients_b, workspace_patients_b)

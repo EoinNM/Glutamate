@@ -53,15 +53,37 @@ def create_svs_mask_GTS_data(population, workspace_dir):
                                         os.path.join(mask_dir, '%s%s_%s_RDA_coord.txt' %(subject,workspace_dir[-10:-9], voxel_name)))
             else:
                 print '%s SVS mask already created..... moving on'%voxel_name
+
             print '========================================================================================'
         create_svs_masks('ACC')
         create_svs_masks('THA')
         create_svs_masks('STR')
 
+        # def create_within_voxel_masks(voxel_name):
+        #     mkdir_path(os.path.join(subject_workspace, 'svs_voxel_mask', 'within_voxel_tissue'))
+        #     mask_dir_2= os.path.join(subject_workspace, 'svs_voxel_mask', 'within_voxel_tissue')
+        #     svs_file = os.path.join(subject_workspace, 'svs_voxel_mask', '%s%s_%s_RDA_MASK.nii' %(subject,workspace_dir[-10:-9], voxel_name) )
+        #
+        #     gm = os.path.join(subject_workspace, 'segmentation_spm', 'TISSUE_CLASS_1_GM_OPTIMIZED.nii.gz')
+        #     wm = os.path.join(subject_workspace, 'segmentation_spm', 'TISSUE_CLASS_2_WM_OPTIMIZED.nii.gz')
+        #     cm = os.path.join(subject_workspace, 'segmentation_spm', 'TISSUE_CLASS_3_CSF_OPTIMIZED.nii.gz')
+        #
+        #     svs_gm = os.path.join(mask_dir_2, '%s%s_%s_RDA_MASK_GM.nii' %(subject,workspace_dir[-10:-9], voxel_name) )
+        #     svs_wm = os.path.join(mask_dir_2, '%s%s_%s_RDA_MASK_WM.nii' %(subject,workspace_dir[-10:-9], voxel_name) )
+        #     svs_cm = os.path.join(mask_dir_2, '%s%s_%s_RDA_MASK_CSF.nii' %(subject,workspace_dir[-10:-9], voxel_name) )
+        #
+        #     os.system('fslmaths %s -mul %s %s'%(svs_file, gm, svs_gm))
+        #     os.system('fslmaths %s -mul %s %s'%(svs_file, wm, svs_wm))
+        #     os.system('fslmaths %s -mul %s %s'%(svs_file, cm, svs_cm))
+        # create_within_voxel_masks('ACC')
+        # create_within_voxel_masks('THA')
+        # create_within_voxel_masks('STR')
+
 '======================================================================================================================================'
 if __name__ == "__main__":
-    #create_svs_mask_GTS_data(test_control_a,workspace_controls_a)
-    create_svs_mask_GTS_data(controls_a,workspace_controls_a)
-    create_svs_mask_GTS_data(controls_b,workspace_controls_b)
-    create_svs_mask_GTS_data(patients_a,workspace_patients_a)
-    create_svs_mask_GTS_data(patients_b,workspace_patients_b)
+    # create_svs_mask_GTS_data(['KDET'],workspace_controls_a)
+    # create_svs_mask_GTS_data(controls_a,workspace_controls_a)
+    # create_svs_mask_GTS_data(controls_b,workspace_controls_b)
+    # create_svs_mask_GTS_data(patients_a,workspace_patients_a)
+    # create_svs_mask_GTS_data(patients_b,workspace_patients_b)
+    create_svs_mask_GTS_data(['NL2P'],workspace_patients_b)
