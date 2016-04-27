@@ -140,5 +140,4 @@ def calc_overlap(population, population_name):
         plot_svs('overlap_THA_a2b.nii.gz', tha_b, anat_b, 'THA')
         plot_svs('overlap_STR_a2b.nii.gz', str_b, anat_b, 'STR')
 
-#calc_overlap(['HR8T'], 'controls')
 calc_overlap(controls_b, 'controls')

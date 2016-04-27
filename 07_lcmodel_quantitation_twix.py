@@ -143,10 +143,8 @@ def run_lcmodel_on_drift_corrected_data(population, workspace_dir):
         ##########################################################################################
 
 if __name__ == "__main__":
-    #run_lcmodel_on_drift_corrected_data(['HR8T', 'SS1X'], workspace_controls_a)
-    #run_lcmodel_on_drift_corrected_data(controls_a, workspace_controls_a)
+    run_lcmodel_on_drift_corrected_data(controls_a, workspace_controls_a)
     #run_lcmodel_on_drift_corrected_data(controls_b, workspace_controls_b)
     #run_lcmodel_on_drift_corrected_data(patients_a_twix, workspace_patients_a)
     #run_lcmodel_on_drift_corrected_data(patients_b_twix, workspace_patients_b)
-    run_lcmodel_on_drift_corrected_data(['CF1P'], workspace_patients_b)
 
