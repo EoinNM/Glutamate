@@ -101,3 +101,36 @@ def find_cut_coords(img, mask=None, activation_threshold=None):
 
     # Return as a list of scalars
     return coords
+
+def calc_dice_metric(svs_1, svs_2, fname= None):
+    """
+    Method to compute the Sorensen-Dice coefficient between two binary nifti images.
+    """
+
+    import nibabel as nb
+    import numpy
+
+    import os
+    #read in data
+    vox_1_data = nb.load(svs_1).get_data()
+    vox_2_data = nb.load(svs_2).get_data()
+
+    vox_1_bool= numpy.atleast_1d(vox_1_data.astype(numpy.bool))
+    vox_2_bool= numpy.atleast_1d(vox_2_data.astype(numpy.bool))
+
+    intersection = numpy.count_nonzero(vox_1_bool & vox_2_bool)
+
+    vox_1_total = numpy.count_nonzero(vox_1_bool)
+    vox_2_total = numpy.count_nonzero(vox_2_bool)
+
+    try:
+        dice = 2. * intersection / float(vox_1_total + vox_2_total)
+    except ZeroDivisionError:
+        dice = 0.0
+
+    if fname:
+        dice_write = open('./dice_metric_%s.txt'%fname, 'w')
+        dice_write.write('%s'%dice)
+        dice_write.close()
+
+    return dice
