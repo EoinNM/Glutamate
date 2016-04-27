@@ -86,4 +86,4 @@ if __name__ == "__main__":
     # create_svs_mask_GTS_data(controls_b,workspace_controls_b)
     # create_svs_mask_GTS_data(patients_a,workspace_patients_a)
     # create_svs_mask_GTS_data(patients_b,workspace_patients_b)
-    create_svs_mask_GTS_data(['NL2P'],workspace_patients_b)
+    create_svs_mask_GTS_data(['CF1P'],workspace_patients_b)

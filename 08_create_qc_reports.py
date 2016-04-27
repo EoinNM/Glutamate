@@ -179,5 +179,5 @@ if __name__ == "__main__":
     # create_mrs_qc(patients_a, workspace_patients_a, 'rda')
     # create_mrs_qc(patients_a_twix, workspace_patients_a, 'twix')
     #
-    create_mrs_qc(['NL2P'], workspace_patients_b, 'rda')
-    create_mrs_qc(['NL2P'], workspace_patients_b, 'twix')
+    create_mrs_qc(['CF1P'], workspace_patients_b, 'rda')
+    create_mrs_qc(['CF1P'], workspace_patients_b, 'twix')

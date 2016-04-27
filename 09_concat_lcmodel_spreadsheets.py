@@ -124,7 +124,7 @@ def concat_lcmodel_spreasheets(population, workspace_dir, results_dir):
     create_group_dataframe('STR', 'twix', 3.67)
 
 
-concat_lcmodel_spreasheets(controls_a, workspace_controls_a, results_dir_a)
-concat_lcmodel_spreasheets(patients_a, workspace_patients_a, results_dir_a)
-concat_lcmodel_spreasheets(controls_b, workspace_controls_b, results_dir_b)
+#concat_lcmodel_spreasheets(controls_a, workspace_controls_a, results_dir_a)
+#concat_lcmodel_spreasheets(patients_a, workspace_patients_a, results_dir_a)
+#concat_lcmodel_spreasheets(controls_b, workspace_controls_b, results_dir_b)
 concat_lcmodel_spreasheets(patients_b, workspace_patients_b, results_dir_b)

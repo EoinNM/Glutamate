@@ -75,4 +75,4 @@ if __name__ == "__main__":
     # dicom_convert(controls_b, afs_controls_b, workspace_controls_b)
     # dicom_convert(patients_a, afs_patients_a, workspace_patients_a)
     # dicom_convert(patients_b, afs_patients_b, workspace_patients_b)
-    dicom_convert(['NL2P'], afs_patients_b, workspace_patients_b)
+    dicom_convert(['CF1P'], afs_patients_b, workspace_patients_b)

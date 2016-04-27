@@ -34,9 +34,13 @@ def run_lcmodel_on_drift_corrected_data(population, workspace_dir):
             print ''
             print 'PROCESSING SPECTRA WITH LCMODEL FOR %s PPMST = %s'%(voxel_name, ppmst)
             #
-            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_twix', voxel_name,  'ppm_%s'%ppmst, 'met'))
-            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_twix', voxel_name,  'ppm_%s'%ppmst, 'h2o'))
-            lcmodel_dir = os.path.join(workspace_dir, subject, 'lcmodel_twix',voxel_name,  'ppm_%s'%ppmst)
+            #mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_twix', voxel_name,  'ppm_%s'%ppmst, 'met'))
+            #mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_twix', voxel_name,  'ppm_%s'%ppmst, 'h2o'))
+            #lcmodel_dir = os.path.join(workspace_dir, subject, 'lcmodel_twix',voxel_name,  'ppm_%s'%ppmst)
+
+            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_twix_NMEACH', voxel_name,  'ppm_%s'%ppmst, 'met'))
+            mkdir_path(os.path.join(workspace_dir, subject, 'lcmodel_twix_NMEACH', voxel_name,  'ppm_%s'%ppmst, 'h2o'))
+            lcmodel_dir = os.path.join(workspace_dir, subject, 'lcmodel_twix_NMEACH',voxel_name,  'ppm_%s'%ppmst)
 
             shutil.copy(os.path.join(twix_dir, '%s'%voxel_name, '%s'%voxel_name, '%s_lcm'%voxel_name),
                         os.path.join(lcmodel_dir, 'met', 'RAW'))
@@ -91,6 +95,7 @@ def run_lcmodel_on_drift_corrected_data(population, workspace_dir):
             file.write(" filbas= '/home/raid3/kanaan/.lcmodel/basis-sets/press_te30_3t_01a.basis'\n")
             file.write(" echot= %s \n" %echot)
             file.write(" dows= T \n")
+            file.write(" NEACH= 999 \n") # export met fits
             #file.write(" DEGPPM =0 \n")
             file.write(" doecc= T\n")
             file.write(" deltat= %s\n"%deltat)
@@ -138,10 +143,10 @@ def run_lcmodel_on_drift_corrected_data(population, workspace_dir):
         ##########################################################################################
 
 if __name__ == "__main__":
-    # run_lcmodel_on_drift_corrected_data(['TR4T'], workspace_controls_a)
-    # run_lcmodel_on_drift_corrected_data(controls_a, workspace_controls_a)
-    # run_lcmodel_on_drift_corrected_data(controls_b, workspace_controls_b)
-    # run_lcmodel_on_drift_corrected_data(patients_a_twix, workspace_patients_a)
-    # run_lcmodel_on_drift_corrected_data(patients_b_twix, workspace_patients_b)
-    run_lcmodel_on_drift_corrected_data(['NL2P'], workspace_patients_b)
+    #run_lcmodel_on_drift_corrected_data(['HR8T', 'SS1X'], workspace_controls_a)
+    #run_lcmodel_on_drift_corrected_data(controls_a, workspace_controls_a)
+    #run_lcmodel_on_drift_corrected_data(controls_b, workspace_controls_b)
+    #run_lcmodel_on_drift_corrected_data(patients_a_twix, workspace_patients_a)
+    #run_lcmodel_on_drift_corrected_data(patients_b_twix, workspace_patients_b)
+    run_lcmodel_on_drift_corrected_data(['CF1P'], workspace_patients_b)
 

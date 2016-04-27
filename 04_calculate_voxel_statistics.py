@@ -91,4 +91,4 @@ if __name__ == "__main__":
      # calculate_voxel_statistics(controls_b, workspace_controls_b)
      # calculate_voxel_statistics(patients_a, workspace_patients_a)
      # calculate_voxel_statistics(patients_b, workspace_patients_b)
-     calculate_voxel_statistics(['NL2P'], workspace_patients_b)
+     calculate_voxel_statistics(['CF1P'], workspace_patients_b)

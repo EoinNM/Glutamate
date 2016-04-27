@@ -176,4 +176,4 @@ if __name__ == "__main__":
     # run_lcmodel(controls_b , workspace_controls_b)
     # run_lcmodel(patients_a , workspace_patients_a)
     # run_lcmodel(patients_b , workspace_patients_b)
-    run_lcmodel(['NL2P'] , workspace_patients_b)
+    run_lcmodel(['CF1P'] , workspace_patients_b)

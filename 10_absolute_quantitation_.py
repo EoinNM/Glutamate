@@ -92,7 +92,7 @@ def absolute_quantitation(workspace_dir, results_dir):
     make_absolute_dataframe('STR', 'twix', 3.67)
 
 if __name__ == "__main__":
-    absolute_quantitation(workspace_controls_a, results_dir_a)
-    absolute_quantitation(workspace_patients_a, results_dir_a)
-    absolute_quantitation(workspace_controls_b, results_dir_b)
+    #absolute_quantitation(workspace_controls_a, results_dir_a)
+    #absolute_quantitation(workspace_patients_a, results_dir_a)
+    #absolute_quantitation(workspace_controls_b, results_dir_b)
     absolute_quantitation(workspace_patients_b, results_dir_b)

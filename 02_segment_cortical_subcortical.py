@@ -134,6 +134,7 @@ def segment_spm(population, workspace_dir):
             first_seg = os.path.join(out_first_dir, 'FIRST_all_fast_firstseg.nii.gz')
 
             if not os.path.isfile(first_seg):
+            #if not os.path.isfile(os.path.join(out_seg_dir, 'TISSUE_CLASS_1_GM_OPTIMIZED.nii.gz')):
                 ref = '/usr/share/fsl/5.0/data/standard/MNI152_T1_1mm_brain.nii.gz'
                 omat = os.path.join(anatomical_dir, 'ANATOMICAL_DESKULL_RPI_MNI.mat')
                 anat2mni = os.path.join(anatomical_dir, 'ANATOMICAL_DESKULL_RPI_MNI.nii.gz')
@@ -169,4 +170,4 @@ if __name__ == "__main__":
     # segment_spm(controls_b, workspace_controls_b)
     # segment_spm(patients_a, workspace_patients_a)
     # segment_spm(patients_b, workspace_patients_b)
-    segment_spm(['NL2P'], workspace_patients_b)
+    segment_spm(['CF1P'], workspace_patients_b)
