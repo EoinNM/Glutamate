@@ -138,7 +138,7 @@ def quantiation_correction(population, workspace_dir, analysis_type):
 
 if __name__ == "__main__":
     quantiation_correction(controls_a, workspace_controls_a, 'rda')
-    quantiation_correction(controls_b, workspace_controls_b, 'rda')
-    quantiation_correction(patients_a, workspace_patients_a, 'rda')
-    quantiation_correction(patients_b, workspace_patients_b, 'rda')
+    # quantiation_correction(controls_b, workspace_controls_b, 'rda')
+    # quantiation_correction(patients_a, workspace_patients_a, 'rda')
+    # quantiation_correction(patients_b, workspace_patients_b, 'rda')
 
